@@ -1,13 +1,15 @@
-var express = require('express');
-const bodyParser = require('body-parser');
-var User = require('../models/user');
-var passport = require('passport');
+const express = require('express')
+const router = express.Router()
 
-var router = express.Router();
+const bodyParser = require('body-parser');
+const User = require('../models/user')
+const passport = require('passport')
+
 router.use(bodyParser.json());
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', function (req, res, next) {
+    res.send('respond with a resource');
 });
 
 router.post('/signup', (req, res, next) => {
@@ -35,16 +37,15 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  if (req.session) {
-    req.session.destroy();
-    res.clearCookie('session-id');
-    res.redirect('/');
-  }
-  else {
-    var err = new Error('You are not logged in!');
-    err.status = 403;
-    next(err);
-  }
+    if (req.session) {
+        req.session.destroy();
+        res.clearCookie('session-id');
+        res.redirect('/');
+    } else {
+        const err = new Error('You are not logged in!')
+        err.status = 403;
+        next(err);
+    }
 });
 
 module.exports = router;
